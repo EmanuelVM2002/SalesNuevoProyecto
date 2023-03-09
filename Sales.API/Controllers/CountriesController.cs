@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Sales.API.Data;
 using Sales.Shared.Entities;
 
@@ -6,12 +7,18 @@ namespace Sales.API.Controllers
 {
     [ApiController]
     [Route("/api/countries")]
-    public class CountriiesController : ControllerBase
+    public class CountriesController : ControllerBase
     {
         private readonly DataContext _context;
-        public CountriiesController(DataContext context)
+        public CountriesController(DataContext context)
         {
             this._context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
+        {
+            return Ok(await _context.Countries.ToListAsync());
         }
 
         [HttpPost]
